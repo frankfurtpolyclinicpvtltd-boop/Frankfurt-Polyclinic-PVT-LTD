@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frankfurt Polyclinic Pvt. Ltd.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===================== TOKENS ===================== */
+:root{
+  --bg: #F3F6FB;
+  --bg-alt: #E7EEF7;
+  --ink: #0F2340;
+  --ink-soft: #45607F;
+  --teal: #163A6B;
+  --teal-light: #1F4F8F;
+  --sage: #6FA8DC;
+  --coral: #F2A93B;
+  --coral-dark: #D6931F;
+  --sky: #2F80ED;
+  --paper: #FFFFFF;
+  --line: #D7E1EC;
+  --ok: #2E7D4F;
+  --warn: #C08A1E;
+  --bad: #C0392B;
+  --font-display: 'Lora', serif;
+  --font-body: 'Inter', 'Noto Sans Devanagari', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 14px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);line-height:1.55;-webkit-font-smoothing:antialiased;}
+img{max-width:100%;display:block;}
+h1,h2,h3,h4{font-family:var(--font-display);margin:0 0 .4em;color:var(--teal);font-weight:700;}
+a{color:inherit;}
+button{font-family:var(--font-body);cursor:pointer;}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px;}
+.mono{font-family:var(--font-mono);}
+.section{display:none;}
+.section.active{display:block;animation:fadeIn .4s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+.eyebrow{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--coral);display:inline-block;}
+
+.vitals{height:20px;overflow:hidden;}
+.vitals svg{width:100%;height:100%;display:block;}
+
+/* ===================== NAV ===================== */
+header.top{position:sticky;top:0;z-index:40;background:var(--teal);color:var(--bg);border-bottom:3px solid var(--coral);}
+.navbar{max-width:1120px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--bg);}
+.brand img{width:40px;height:40px;border-radius:8px;background:#fff;object-fit:contain;padding:2px;}
+.brand-text{font-family:var(--font-display);font-weight:700;font-size:1.08rem;line-height:1.15;}
+.brand-text small{display:block;font-family:var(--font-mono);font-size:.58rem;letter-spacing:.08em;color:var(--sage);font-weight:400;text-transform:uppercase;}
+.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+nav.routes{display:flex;gap:4px;flex-wrap:wrap;}
+nav.routes button{background:transparent;border:none;color:var(--bg);font-family:var(--font-mono);font-size:.78rem;letter-spacing:.03em;padding:8px 12px;border-radius:999px;transition:background .2s,color .2s;text-transform:uppercase;}
+nav.routes button:hover{background:var(--teal-light);}
+nav.routes button.active{background:var(--coral);color:#fff;font-weight:700;}
+.admin-link{opacity:.7;font-size:.72rem !important;}
+.lang-toggle{display:flex;border:1px solid rgba(255,255,255,.3);border-radius:999px;overflow:hidden;}
+.lang-toggle button{background:transparent;border:none;color:var(--bg);font-family:var(--font-mono);font-size:.72rem;padding:6px 12px;letter-spacing:.03em;}
+.lang-toggle button.active{background:var(--sage);color:var(--teal);font-weight:700;}
+
+/* ===================== HERO (dark, photo-backed) ===================== */
+.hero{
+  position:relative;
+  min-height:78vh;
+  display:flex;
+  align-items:flex-end;
+  color:#fff;
+  overflow:hidden;
+  background-color:#081326;
+  background-image:
+    linear-gradient(90deg, rgba(4,10,22,.92) 0%, rgba(4,10,22,.62) 42%, rgba(4,10,22,.40) 68%, rgba(4,10,22,.80) 100%),
+    linear-gradient(180deg, rgba(4,10,22,.30) 0%, rgba(4,10,22,.35) 35%, rgba(4,10,22,.95) 100%),
+    url('ccc.png');
+  background-size:cover;
+  background-position:center;
+}
+/* images/clinic-bg.png = your real storefront photo. The layered dark-blue
+   gradients above dim it Netflix-style so headline text stays readable;
+   adjust the opacity numbers if you want it lighter/darker. */
+.hero-inner{text-shadow:0 2px 12px rgba(0,0,0,.45);}
+.hero-brand{
+  position:absolute;top:26px;left:0;right:0;
+  display:flex;align-items:center;gap:12px;
+  padding:0 24px;max-width:1120px;margin:0 auto;left:0;right:0;
+}
+.hero-brand img{width:52px;height:52px;border-radius:10px;background:#fff;padding:3px;object-fit:contain;}
+.hero-brand .hb-text{font-family:var(--font-display);font-weight:700;font-size:1.3rem;color:#fff;line-height:1.1;text-shadow:0 2px 10px rgba(0,0,0,.55);}
+.hero-brand .hb-text small{display:block;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.1em;color:var(--sage);text-transform:uppercase;font-weight:400;margin-top:3px;}
+.hero .wrap{position:relative;z-index:2;padding-bottom:56px;padding-top:110px;}
+.hero-inner{max-width:640px;}
+.hero h1{color:#fff;font-size:clamp(2.2rem,4.6vw,3.3rem);line-height:1.05;margin-bottom:.3em;}
+.hero h1 em{font-style:italic;color:var(--sage);}
+.hero p.lede{color:#E3EEE8;font-size:1.05rem;max-width:46ch;margin-bottom:1.6em;}
+.hero .badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.8em;}
+.hero .badge{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.04em;border:1px solid rgba(255,255,255,.35);padding:6px 12px;border-radius:999px;color:#EDF5F1;background:rgba(255,255,255,.06);}
+.btn{display:inline-flex;align-items:center;gap:8px;border:none;padding:13px 24px;border-radius:999px;font-weight:700;font-size:.93rem;text-decoration:none;transition:transform .15s ease, box-shadow .15s ease;}
+.btn:hover{transform:translateY(-2px);}
+.btn-primary{background:var(--coral);color:#fff;box-shadow:0 6px 0 var(--coral-dark);}
+.btn-primary:hover{box-shadow:0 4px 0 var(--coral-dark);}
+.btn-outline{background:transparent;border:2px solid rgba(255,255,255,.5);color:#fff;}
+.btn-ghost{background:var(--paper);border:2px solid var(--line);color:var(--ink);}
+.btn-danger{background:var(--bad);color:#fff;}
+.btn-ok{background:var(--ok);color:#fff;}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* ===================== SECTIONS GENERIC ===================== */
+.section-head{padding:52px 0 8px;text-align:left;}
+.section-head p{color:var(--ink-soft);max-width:62ch;}
+.pad{padding:36px 0 70px;}
+
+.mile-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:28px 0;}
+.mile{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px;position:relative;}
+.mile::before{content:attr(data-mark);font-family:var(--font-mono);font-size:.68rem;color:var(--sage);background:var(--teal);padding:2px 8px;border-radius:999px;position:absolute;top:-11px;left:16px;}
+.mile h3{font-size:1.5rem;margin-bottom:2px;}
+.mile span{color:var(--ink-soft);font-size:.85rem;}
+
+.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start;}
+.hours-card{background:var(--teal);color:var(--bg);border-radius:var(--radius);padding:24px;}
+.hours-card h3{color:#fff;}
+.hours-row{display:flex;justify-content:space-between;gap:12px;font-family:var(--font-mono);font-size:.85rem;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.2);}
+.hours-row:last-child{border-bottom:none;}
+.hours-row span:last-child{text-align:right;}
+.map-embed{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);margin-top:16px;height:240px;}
+.map-embed iframe{width:100%;height:100%;border:0;}
+.directions-link{display:inline-block;margin-top:10px;font-family:var(--font-mono);font-size:.8rem;color:var(--sky);text-decoration:underline;}
+
+/* Services */
+.service-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;}
+.service-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:10px;}
+.service-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+.service-top h4{margin:0;font-size:1.0rem;}
+.service-price{font-family:var(--font-mono);font-weight:700;color:var(--coral);white-space:nowrap;}
+.service-desc{font-size:.83rem;color:var(--ink-soft);margin:0;flex:1;}
+.service-card .btn{align-self:flex-start;padding:8px 16px;font-size:.8rem;}
+
+.search-row{display:flex;gap:10px;margin:18px 0 22px;max-width:480px;}
+.search-row input{flex:1;padding:11px 14px;border:1px solid var(--line);border-radius:999px;font-family:var(--font-body);font-size:.9rem;}
+.search-row button{background:var(--teal);color:#fff;border:none;padding:11px 20px;border-radius:999px;font-weight:700;font-size:.85rem;}
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;}
+.lab-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.lab-card .lab-name{font-size:.85rem;font-weight:600;}
+.lab-card .lab-no{font-family:var(--font-mono);font-size:.68rem;color:var(--ink-soft);}
+.lab-card .lab-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.lab-card .lab-price{font-family:var(--font-mono);font-weight:700;color:var(--coral);font-size:.85rem;}
+.lab-card button{background:var(--bg-alt);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:.72rem;font-family:var(--font-mono);}
+.lab-empty{color:var(--ink-soft);padding:20px 0;grid-column:1/-1;text-align:center;}
+.lab-count-note{font-size:.8rem;color:var(--ink-soft);margin-bottom:10px;}
+
+/* Members */
+.crew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;}
+.crew-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px;text-align:center;}
+.crew-card .photo-slot{width:88px;height:88px;border-radius:50%;margin:0 auto 12px;border:3px dashed var(--sage);display:flex;align-items:center;justify-content:center;background:var(--bg-alt);color:var(--ink-soft);font-size:1.5rem;}
+.crew-card h4{margin-bottom:2px;font-size:1.0rem;}
+.crew-role{font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--coral);}
+
+/* ===================== BOOK APPOINTMENT ===================== */
+#bookForm{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:26px;max-width:760px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.field-row label{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);display:block;margin-bottom:4px;font-family:var(--font-mono);}
+select,input[type=text],input[type=tel],input[type=email],input[type=date],input[type=time],textarea{
+  width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:8px;font-family:var(--font-body);font-size:.92rem;background:#fff;color:var(--ink);
+}
+textarea{resize:vertical;min-height:60px;}
+.pay-toggle{display:flex;gap:10px;margin-bottom:18px;}
+.pay-toggle label{flex:1;border:2px solid var(--line);border-radius:10px;padding:14px;text-align:center;font-family:var(--font-mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;transition:.15s;}
+.pay-toggle input{display:none;}
+.pay-toggle label:has(input:checked){border-color:var(--coral);background:#FCEEEC;}
+.online-block{border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:14px 0;background:var(--bg-alt);}
+.esewa-box{display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;}
+.esewa-qr{width:140px;height:140px;flex-shrink:0;border-radius:8px;overflow:hidden;background:repeating-conic-gradient(#60BB46 0% 25%, #4a9636 0% 50%) 0 0/20px 20px;border:4px solid #60BB46;position:relative;}
+.esewa-qr .qr-inner{position:absolute;inset:10px;background:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;font-family:var(--font-mono);font-size:.6rem;color:#333;padding:6px;}
+.esewa-label{font-weight:700;color:#60BB46;font-family:var(--font-display);font-size:1.05rem;}
+.file-drop{border:2px dashed var(--line);border-radius:10px;padding:16px;text-align:center;background:#fff;}
+.file-drop input{margin-top:8px;}
+.file-preview{max-width:150px;margin-top:10px;border-radius:8px;border:1px solid var(--line);display:none;}
+.hint{font-size:.76rem;color:var(--ink-soft);margin-top:6px;}
+.confirm-card{background:var(--paper);border:2px dashed var(--coral);border-radius:var(--radius);padding:26px;text-align:center;margin-top:20px;max-width:600px;}
+.confirm-card h3{color:var(--coral-dark);}
+.confirm-id{font-family:var(--font-mono);font-size:1.25rem;background:var(--teal);color:var(--sage);display:inline-block;padding:8px 18px;border-radius:8px;margin:10px 0;}
+
+/* ===================== ADMIN ===================== */
+.admin-login{max-width:380px;margin:56px auto;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:30px;text-align:center;}
+.admin-login .lock{font-size:2rem;margin-bottom:8px;}
+.admin-topbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;}
+.status-tabs{display:flex;gap:8px;flex-wrap:wrap;}
+.status-tabs button{background:var(--paper);border:1px solid var(--line);padding:7px 14px;border-radius:999px;font-family:var(--font-mono);font-size:.75rem;text-transform:uppercase;}
+.status-tabs button.active{background:var(--teal);color:#fff;border-color:var(--teal);}
+.appt-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:16px;position:relative;}
+.appt-card::before{content:"";position:absolute;left:-1px;top:14px;bottom:14px;width:4px;border-radius:4px;}
+.appt-card.pending::before{background:var(--warn);}
+.appt-card.accepted::before{background:var(--ok);}
+.appt-card.declined::before{background:var(--bad);}
+.appt-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.appt-id{font-family:var(--font-mono);font-weight:700;color:var(--teal);}
+.appt-time{font-family:var(--font-mono);font-size:.72rem;color:var(--ink-soft);}
+.pill{font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;padding:3px 10px;border-radius:999px;font-weight:700;}
+.pill.pending{background:#FCF0D6;color:var(--warn);}
+.pill.accepted{background:#DFF0E5;color:var(--ok);}
+.pill.declined{background:#FBE2DF;color:var(--bad);}
+.appt-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.appt-side p{margin:4px 0;font-size:.85rem;}
+.appt-side strong{color:var(--teal);}
+.doc-thumb{width:90px;border-radius:8px;border:1px solid var(--line);margin-top:6px;cursor:pointer;margin-right:8px;}
+.appt-actions{display:flex;gap:10px;margin-top:16px;}
+.appt-actions .btn{padding:9px 18px;font-size:.85rem;}
+.empty-state{text-align:center;padding:50px 20px;color:var(--ink-soft);}
+.conn-badge{font-family:var(--font-mono);font-size:.72rem;border-radius:999px;padding:6px 12px;}
+.conn-badge.ok{background:#DFF0E5;color:var(--ok);}
+.conn-badge.bad{background:#FBE2DF;color:var(--bad);}
+.activity-log{margin-top:30px;background:var(--teal);color:var(--bg);border-radius:var(--radius);padding:18px 20px;font-family:var(--font-mono);font-size:.78rem;max-height:220px;overflow-y:auto;}
+.activity-log h4{color:var(--sage);font-family:var(--font-mono);text-transform:uppercase;font-size:.75rem;letter-spacing:.08em;}
+.activity-entry{border-bottom:1px solid rgba(255,255,255,.12);padding:6px 0;}
+.activity-entry:last-child{border-bottom:none;}
+
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--teal);color:#fff;padding:12px 22px;border-radius:999px;font-family:var(--font-mono);font-size:.82rem;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.25s;z-index:100;max-width:90vw;text-align:center;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+footer{background:var(--teal);color:var(--bg);padding:36px 0;margin-top:40px;}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:center;}
+footer p{margin:0;font-size:.82rem;color:#C8DCD3;}
+.foot-links{display:flex;gap:16px;}
+.foot-links a{font-family:var(--font-mono);font-size:.76rem;text-decoration:none;color:#C8DCD3;}
+.foot-links a:hover{color:var(--sage);}
+
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:200;padding:20px;}
+.modal-bg.show{display:flex;}
+.modal-bg img{max-width:90vw;max-height:85vh;border-radius:10px;}
+.modal-close{position:absolute;top:20px;right:24px;background:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:1.2rem;}
+
+@media (max-width:860px){
+  .hero{min-height:70vh;}
+  .about-grid{grid-template-columns:1fr;}
+  .form-grid{grid-template-columns:1fr;}
+  .appt-grid{grid-template-columns:1fr;}
+  nav.routes{width:100%;justify-content:flex-start;}
+  .hero-brand .hb-text{font-size:1.05rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="top">
+  <div class="navbar">
+    <a href="#" class="brand" data-nav="home">
+      <img src="logo.jpg" alt="Frankfurt Polyclinic logo">
+      <span class="brand-text">Frankfurt Polyclinic<small>Pvt. Ltd. · Tokha</small></span>
+    </a>
+    <div class="nav-right">
+      <nav class="routes" id="mainNav">
+        <button data-nav="home" class="active" data-i18n="nav_home">Home</button>
+        <button data-nav="about" data-i18n="nav_about">About</button>
+        <button data-nav="services" data-i18n="nav_services">Services</button>
+        <button data-nav="members" data-i18n="nav_members">Members</button>
+        <button data-nav="book" data-i18n="nav_book">Book Appointment</button>
+        <button data-nav="admin" class="admin-link" data-i18n="nav_admin">Admin</button>
+      </nav>
+      <div class="lang-toggle">
+        <button id="langEnBtn" class="active" data-lang="en">EN</button>
+        <button id="langNpBtn" data-lang="np">नेपाली</button>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="vitals">
+  <svg viewBox="0 0 1200 20" preserveAspectRatio="none"><polyline points="0,10 200,10 230,2 260,18 290,10 500,10 530,2 560,18 590,10 800,10 830,2 860,18 890,10 1200,10" fill="none" stroke="#7FB69E" stroke-width="2"/></svg>
+</div>
+
+<!-- ===================== HOME ===================== -->
+<section class="section active" id="home">
+  <div class="hero">
+    <div class="hero-brand">
+      <img src="logo.jpg" alt="Frankfurt Polyclinic logo">
+      <div class="hb-text">Frankfurt Polyclinic Pvt. Ltd.<small>Tokha, Simchaur, Kathmandu</small></div>
+    </div>
+    <div class="wrap">
+      <div class="hero-inner">
+        <div class="eyebrow" style="color:var(--sage)" data-i18n="hero_eyebrow">Open 24 Hours · Tokha, Simchaur</div>
+        <h1><span data-i18n="hero_title">Care that's close,</span> <em data-i18n="hero_title_em">day or night.</em></h1>
+        <p class="lede" data-i18n="hero_lede">Frankfurt Polyclinic offers comprehensive lab, diagnostic, dental, eye, and specialist care for the Tokha community &mdash; open around the clock, with easy online appointment booking.</p>
+        <div class="badges">
+          <span class="badge" data-i18n="hero_badge1">Open 24 Hours</span>
+          <span class="badge">📞 01-497446</span>
+          <span class="badge" data-i18n="hero_badge3">eSewa &amp; Pay at Clinic</span>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <button class="btn btn-primary" data-nav="book" data-i18n="hero_btn_book">Book an Appointment →</button>
+          <button class="btn btn-outline" data-nav="services" data-i18n="hero_btn_services">View Services</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap pad">
+    <div class="section-head" style="padding-top:36px;">
+      <div class="eyebrow" data-i18n="home_why_eyebrow">Why patients choose us</div>
+      <h2 data-i18n="home_why_title">Community care, always open</h2>
+    </div>
+    <div class="mile-row">
+      <div class="mile" data-mark="24/7"><h3 data-i18n="mile1_h">Always Open</h3><span data-i18n="mile1_p">Round-the-clock availability</span></div>
+      <div class="mile" data-mark="LOCAL"><h3 data-i18n="mile2_h">Tokha Based</h3><span data-i18n="mile2_p">Serving the local community</span></div>
+      <div class="mile" data-mark="EASY"><h3 data-i18n="mile3_h">Online Booking</h3><span data-i18n="mile3_p">Book from any device, any time</span></div>
+      <div class="mile" data-mark="SAFE"><h3 data-i18n="mile4_h">eSewa Ready</h3><span data-i18n="mile4_p">Pay online or at the clinic</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="section" id="about">
+  <div class="wrap pad">
+    <div class="section-head" style="padding-top:20px;">
+      <div class="eyebrow" data-i18n="about_eyebrow">About Us</div>
+      <h2 data-i18n="about_title">Everyday healthcare for Tokha, Simchaur</h2>
+      <p data-i18n="about_body">Frankfurt Polyclinic Pvt. Ltd. was founded to give the local community reliable, comprehensive healthcare without needing to travel into the city. We're open 24 hours, so care is available whenever it's needed.</p>
+    </div>
+
+    <div class="about-grid">
+      <div>
+        <h3 data-i18n="about_expect_h">What to expect</h3>
+        <p style="color:var(--ink-soft)" data-i18n="about_expect_p">Our team provides comprehensive laboratory, diagnostic, dental, eye, and specialist care. Bring your citizenship document to your appointment for registration.</p>
+        <div class="map-embed">
+          <iframe src="https://www.google.com/maps?q=Q8WH%2BJV+Tokha,+Kathmandu&output=embed" loading="lazy" title="Clinic location map"></iframe>
+        </div>
+        <a class="directions-link" href="https://www.google.com/maps/search/?api=1&query=Q8WH%2BJV+Tokha+Kathmandu" target="_blank" rel="noopener" data-i18n="about_directions">Get Directions ↗</a>
+      </div>
+      <div class="hours-card">
+        <h3 data-i18n="about_visit_h">Visit Us</h3>
+        <div class="hours-row"><span data-i18n="about_address_label">Address</span><span>Tokha, Simchaur, Kathmandu (Q8WH+JV)</span></div>
+        <div class="hours-row"><span data-i18n="about_phone_label">Phone</span><span>01-497446</span></div>
+        <div class="hours-row"><span data-i18n="about_hours_label">Hours</span><span data-i18n="about_hours_value">Open 24 Hours</span></div>
+        <div class="hours-row"><span data-i18n="about_appt_label">Appointments</span><span data-i18n="about_appt_value">Walk-in &amp; online booking</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SERVICES ===================== -->
+<section class="section" id="services">
+  <div class="wrap pad">
+    <div class="section-head" style="padding-top:20px;">
+      <div class="eyebrow" data-i18n="services_eyebrow">Our Services</div>
+      <h2 data-i18n="services_title">Available Services</h2>
+      <p data-i18n="services_note">Prices below are random placeholders — replace them with your real prices in the code whenever you're ready.</p>
+    </div>
+    <div class="service-grid" id="serviceGrid"></div>
+
+    <div class="section-head" style="padding-top:50px;">
+      <div class="eyebrow" data-i18n="labs_eyebrow">Laboratory Tests</div>
+      <h2 data-i18n="labs_title">Search Our Lab Tests</h2>
+      <p data-i18n="labs_note">68 lab tests, searchable by name. Prices are random placeholders — replace with real prices later.</p>
+    </div>
+    <div class="search-row">
+      <input type="text" id="labSearch" placeholder="Search a test, e.g. CBC, TSH, Dengue..." data-i18n-placeholder="labs_search_placeholder">
+      <button type="button" id="labSearchBtn" data-i18n="labs_search_btn">Search</button>
+    </div>
+    <p class="lab-count-note" id="labCountNote"></p>
+    <div class="lab-grid" id="labGrid"></div>
+  </div>
+</section>
+
+<!-- ===================== MEMBERS ===================== -->
+<section class="section" id="members">
+  <div class="wrap pad">
+    <div class="section-head" style="padding-top:20px;">
+      <div class="eyebrow" data-i18n="members_eyebrow">Our Team</div>
+      <h2 data-i18n="members_title">Meet the team</h2>
+      <p data-i18n="members_note">Names below are random placeholders and photos are left blank — see the code comment near <code>CREW</code> to replace both with the real team.</p>
+    </div>
+    <div class="crew-grid" id="crewGrid"></div>
+  </div>
+</section>
+
+<!-- ===================== BOOK APPOINTMENT ===================== -->
+<section class="section" id="book">
+  <div class="wrap pad">
+    <div class="section-head" style="padding-top:20px;">
+      <div class="eyebrow" data-i18n="book_eyebrow">Book an Appointment</div>
+      <h2 data-i18n="book_title">Reserve your visit</h2>
+      <p data-i18n="book_note">Fill in your details below. We'll confirm by email once your appointment is reviewed.</p>
+    </div>
+
+    <form id="bookForm">
+      <div class="form-grid">
+        <div class="field-row">
+          <label for="fullname" data-i18n="field_fullname">Full name</label>
+          <input type="text" id="fullname" required placeholder="e.g. Sita Gurung">
+        </div>
+        <div class="field-row">
+          <label for="citizenshipNo" data-i18n="field_citizenship">Citizenship number</label>
+          <input type="text" id="citizenshipNo" required placeholder="e.g. 12-34-56-78901">
+        </div>
+        <div class="field-row">
+          <label for="phone" data-i18n="field_phone">Contact number</label>
+          <input type="tel" id="phone" required placeholder="98XXXXXXXX">
+        </div>
+        <div class="field-row">
+          <label for="email" data-i18n="field_email">Email address</label>
+          <input type="email" id="email" required placeholder="you@example.com">
+        </div>
+      </div>
+
+      <div class="field-row" style="margin-bottom:16px;">
+        <label for="service" data-i18n="field_service">Service</label>
+        <select id="service" required></select>
+      </div>
+
+      <div class="field-row" style="margin-bottom:16px;">
+        <label for="address" data-i18n="field_address">Your address</label>
+        <textarea id="address" required placeholder="e.g. Ward 5, Tokha, Kathmandu"></textarea>
+      </div>
+
+      <div class="form-grid">
+        <div class="field-row">
+          <label for="apptDate" data-i18n="field_date">Appointment date</label>
+          <input type="date" id="apptDate" required>
+        </div>
+        <div class="field-row">
+          <label for="apptTime" data-i18n="field_time">Appointment time</label>
+          <input type="time" id="apptTime" required>
+        </div>
+      </div>
+
+      <div class="field-row" style="margin-bottom:16px;">
+        <label for="citizenshipUpload" data-i18n="field_citizenship_upload">Upload citizenship document (photo)</label>
+        <div class="file-drop">
+          📎 <input type="file" id="citizenshipUpload" accept="image/*" required>
+          <img id="citizenshipPreview" class="file-preview" alt="Citizenship document preview">
+        </div>
+        <p class="hint" data-i18n="field_citizenship_hint">Used for patient registration only. Handled confidentially.</p>
+      </div>
+
+      <label style="font-family:var(--font-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);" data-i18n="field_paymethod">Payment method</label>
+      <div class="pay-toggle">
+        <label><input type="radio" name="payMethod" value="online" checked><span data-i18n="pay_online">💳 Pay Online (eSewa)</span></label>
+        <label><input type="radio" name="payMethod" value="clinic"><span data-i18n="pay_clinic">🏥 Pay at Clinic</span></label>
+      </div>
+
+      <div class="online-block" id="onlineBlock">
+        <div class="esewa-box">
+          <div class="esewa-qr"><div class="qr-inner">Replace with<br>your real<br>eSewa merchant<br>QR image</div></div>
+          <div>
+            <div class="esewa-label">eSewa</div>
+            <p style="margin:4px 0 0;font-size:.85rem;color:var(--ink-soft);" data-i18n="esewa_note">Scan this QR code from your eSewa app to pay the service fee, then upload your payment screenshot below.</p>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="paymentUpload" data-i18n="field_payment_upload">Upload payment screenshot</label>
+          <div class="file-drop">
+            📎 <input type="file" id="paymentUpload" accept="image/*">
+            <img id="paymentPreview" class="file-preview" alt="Payment proof preview">
+          </div>
+          <p class="hint" data-i18n="field_payment_hint">Required for online payments &mdash; admin will verify this before confirming your appointment.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+        <button type="submit" class="btn btn-primary" id="bookBtn" data-i18n="book_submit">Book Appointment</button>
+      </div>
+    </form>
+
+    <div class="confirm-card" id="confirmCard" style="display:none;">
+      <div class="eyebrow" style="justify-content:center;" data-i18n="confirm_eyebrow">Appointment received</div>
+      <h3 data-i18n="confirm_h">Thank you — your request is being reviewed!</h3>
+      <div class="confirm-id" id="confirmId">#APT-0000</div>
+      <p style="color:var(--ink-soft);" data-i18n="confirm_p">We'll email you once the clinic confirms or declines your appointment.</p>
+      <button class="btn btn-outline" style="background:var(--teal);color:#fff;margin-top:10px;" data-nav="home" data-i18n="confirm_home_btn">Back to Home</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ADMIN ===================== -->
+<section class="section" id="admin">
+  <div class="wrap pad">
+
+    <div id="adminLoginView">
+      <div class="admin-login">
+        <div class="lock">🔒</div>
+        <h3 data-i18n="admin_title">Admin Panel</h3>
+        <p style="color:var(--ink-soft);font-size:.88rem;" data-i18n="admin_sub">Enter the admin password to review and manage appointments from any device.</p>
+        <div class="field-row" style="text-align:left;margin:16px 0;">
+          <label for="adminPass" data-i18n="admin_pass_label">Password</label>
+          <input type="text" id="adminPass" placeholder="Enter password" autocomplete="off">
+        </div>
+        <button class="btn btn-primary" id="adminLoginBtn" style="width:100%;justify-content:center;" data-i18n="admin_login_btn">Log In</button>
+        <p class="hint" id="adminLoginError" style="color:var(--bad);"></p>
+        <p class="hint" data-i18n="admin_default_note"> <b></b>   <code></code> </p>
+      </div>
+    </div>
+
+    <div id="adminDashView" style="display:none;">
+      <div class="admin-topbar">
+        <div>
+          <div class="eyebrow" data-i18n="admin_control_eyebrow">Clinic Control</div>
+          <h2 style="margin:0;" data-i18n="admin_dashboard_h">Appointment Dashboard</h2>
+          <p class="hint" id="apptCountReadout">—</p>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <span class="conn-badge" id="connBadge">Connecting…</span>
+          <button class="btn btn-ghost" id="adminLogoutBtn" data-i18n="admin_logout_btn">Log out</button>
+        </div>
+      </div>
+
+      <div class="status-tabs" id="statusTabs">
+        <button data-status="all" class="active">All</button>
+        <button data-status="pending">Pending</button>
+        <button data-status="accepted">Accepted</button>
+        <button data-status="declined">Declined</button>
+      </div>
+
+      <div id="apptList"></div>
+
+      <div class="activity-log">
+        <h4>📨 Activity Log (this session)</h4>
+        <div id="activityLog"><div class="activity-entry">No actions yet.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal-bg" id="imgModal">
+  <button class="modal-close" id="imgModalClose">✕</button>
+  <img id="imgModalImg" alt="Document preview">
+</div>
+
+<div id="toast"></div>
+
+<footer>
+  <div class="wrap">
+    <p>© <span id="year"></span> Frankfurt Polyclinic Pvt. Ltd. All rights reserved.</p>
+    <div class="foot-links">
+      <a href="#" data-nav="home" data-i18n="nav_home">Home</a>
+      <a href="#" data-nav="about" data-i18n="nav_about">About</a>
+      <a href="#" data-nav="services" data-i18n="nav_services">Services</a>
+      <a href="#" data-nav="book" data-i18n="nav_book">Book</a>
+      <a href="#" data-nav="admin" data-i18n="nav_admin">Admin</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   FRANKFURT POLYCLINIC PVT. LTD. — APP LOGIC
+   Same architecture as the restaurant project: Flask + database backend
+   so patients anywhere can book, admin sees every booking live from any
+   device, with Gmail email notifications on accept/decline.
+   ===================================================================== */
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ---------- CONFIG ---------- */
+const API_BASE_URL = "https://frankfurtpolyclinic.pythonanywhere.com"; // TODO: set to your deployed Flask backend URL
+
+/* ---------- SEEDED PLACEHOLDER PRICES ----------
+   Generates a stable, varied-looking "random" price for each item so the
+   site looks complete. Replace real numbers directly in SERVICES /
+   LAB_TESTS below whenever you're ready — this generator is just filler. */
+function seededPrice(seed, min, max, step){
+  let x = Math.sin(seed * 9973.13) * 10000;
+  x = x - Math.floor(x);
+  const val = min + x * (max - min);
+  return Math.round(val / step) * step;
+}
+
+/* ---------- GENERAL SERVICES (placeholder prices — edit freely) ---------- */
+const SERVICE_NAMES = [
+  'Comprehensive Laboratory Services','X-Ray','Ultrasound (USG)','Comprehensive Dental Services',
+  'Comprehensive Eye Care Services','Physiotherapy','Comprehensive Gynecological Services',
+  'Pediatric Check-ups by a Specialist','Minor Surgeries by a Specialist Surgeon','Urology Services',
+  'ECG / PFT','Orthopedic & Neurological Treatment by Specialists','Treatment for Various Ailments by Specialist Doctors',
+  'Special Health Check-up Package (Whole Body Check-up)','Comprehensive Health Consultations'
+];
+const SERVICES = SERVICE_NAMES.map((name, i) => ({
+  name, price: seededPrice(i + 1, 500, 5000, 50),
+  desc: 'Contact the clinic for details on this service.'
+}));
+
+/* ---------- LAB TESTS (68 tests, placeholder prices — edit freely) ---------- */
+const LAB_TEST_NAMES = [
+  'CBC','ESR','HB','LFT','RFT','ELECTROLYTE','LIPID PROFILE','UREA','CREAT','CALCIUM',
+  'CRP','RA FACTOR','DENGUE PROFILE','PROLACTINE','DENGUE NS1','HBSAG','HIV','SGOT','SGPT','BSL F/PP',
+  'FBS','PPBS','RBS','MALARIA PARASITE','RAPID MP','URIC ACID','VDRL','WIDAL','UPT','URINE ROUTINE',
+  'STOOL ROUTINE','PSA','CORTISOL','HLA-B27','TFT','TSH','VITAMIN B12','VITAMIN D3','IRON STUDY','ANC PROFILE',
+  'B-HCG','SERUM IGE','AMH','HBA1C','CHIKUNGUNYA','FSH','LH','BILIRUBIN','PROGESTERONE','TESTOSTERONE',
+  'HOMOCYSTEINE','BLOOD C/S','URINE C/S','BLOOD GROUP','PT INR','HB-ELECTROPHORESIS','S. FERRITIN','HCV','DOUBLE MARKER','TRIPLE MARKER',
+  'QUADRUPLE MARKER','COVID-19 ANTIBODY','FREE TFT','GTT','LIPASE','AMYLASE','ANA','FOLIC ACID'
+];
+const LAB_TESTS = LAB_TEST_NAMES.map((name, i) => ({
+  no: i + 1, name, price: seededPrice(i + 101, 300, 2800, 10)
+}));
+
+const ALL_BOOKABLE = [...SERVICES, ...LAB_TESTS];
+
+/* ---------- TEAM (random placeholder names — replace, add photoUrl later) ----------
+   Counts as requested: Lab x2, Pharmacist x2, HA x2, Dental x2, Eye x1,
+   Therapist x1, Cleaner x1. To add a real photo later: put the image file
+   next to index.html and change that person's photoUrl:null to e.g.
+   photoUrl:'images/staff1.jpg'.                                          */
+const CREW = [
+  {name:'Sunita Lama', role:'Laboratory', photoUrl:null},
+  {name:'Kiran Thapa', role:'Laboratory', photoUrl:null},
+  {name:'Anjali Koirala', role:'Pharmacist', photoUrl:null},
+  {name:'Bikash Adhikari', role:'Pharmacist', photoUrl:null},
+  {name:'Suresh Magar', role:'Health Assistant (HA)', photoUrl:null},
+  {name:'Pooja Rana', role:'Health Assistant (HA)', photoUrl:null},
+  {name:'Rajesh Shrestha', role:'Dental', photoUrl:null},
+  {name:'Nisha Tamang', role:'Dental', photoUrl:null},
+  {name:'Deepak Basnet', role:'Eye Care', photoUrl:null},
+  {name:'Manisha Karki', role:'Therapist', photoUrl:null},
+  {name:'Hari Bahadur', role:'Cleaner', photoUrl:null}
+];
+
+/* ---------- TRANSLATIONS (EN / NP) ----------
+   Covers the main site chrome. Service names, lab test names, and staff
+   names are left in English/as-entered since those are proper nouns and
+   standard medical terminology. Extend this dictionary any time.        */
+const TRANSLATIONS = {
+  en: {
+    nav_home:'Home', nav_about:'About', nav_services:'Services', nav_members:'Members', nav_book:'Book Appointment', nav_admin:'Admin',
+    hero_eyebrow:'Open 24 Hours · Tokha, Simchaur',
+    hero_title:"Care that's close,", hero_title_em:'day or night.',
+    hero_lede:'Frankfurt Polyclinic offers comprehensive lab, diagnostic, dental, eye, and specialist care for the Tokha community — open around the clock, with easy online appointment booking.',
+    hero_badge1:'Open 24 Hours', hero_badge3:'eSewa & Pay at Clinic',
+    hero_btn_book:'Book an Appointment →', hero_btn_services:'View Services',
+    home_why_eyebrow:'Why patients choose us', home_why_title:'Community care, always open',
+    mile1_h:'Always Open', mile1_p:'Round-the-clock availability',
+    mile2_h:'Tokha Based', mile2_p:'Serving the local community',
+    mile3_h:'Online Booking', mile3_p:'Book from any device, any time',
+    mile4_h:'eSewa Ready', mile4_p:'Pay online or at the clinic',
+    about_eyebrow:'About Us', about_title:'Everyday healthcare for Tokha, Simchaur',
+    about_body:"Frankfurt Polyclinic Pvt. Ltd. was founded to give the local community reliable, comprehensive healthcare without needing to travel into the city. We're open 24 hours, so care is available whenever it's needed.",
+    about_expect_h:'What to expect',
+    about_expect_p:'Our team provides comprehensive laboratory, diagnostic, dental, eye, and specialist care. Bring your citizenship document to your appointment for registration.',
+    about_directions:'Get Directions ↗',
+    about_visit_h:'Visit Us', about_address_label:'Address', about_phone_label:'Phone',
+    about_hours_label:'Hours', about_hours_value:'Open 24 Hours',
+    about_appt_label:'Appointments', about_appt_value:'Walk-in & online booking',
+    services_eyebrow:'Our Services', services_title:'Available Services',
+    services_note:'Prices below are random placeholders — replace them with your real prices in the code whenever you\'re ready.',
+    labs_eyebrow:'Laboratory Tests', labs_title:'Search Our Lab Tests',
+    labs_note:'68 lab tests, searchable by name. Prices are random placeholders — replace with real prices later.',
+    labs_search_placeholder:'Search a test, e.g. CBC, TSH, Dengue...', labs_search_btn:'Search',
+    members_eyebrow:'Our Team', members_title:'Meet the team',
+    members_note:'Names below are random placeholders and photos are left blank — see the code comment near CREW to replace both with the real team.',
+    book_eyebrow:'Book an Appointment', book_title:'Reserve your visit',
+    book_note:"Fill in your details below. We'll confirm by email once your appointment is reviewed.",
+    field_fullname:'Full name', field_citizenship:'Citizenship number', field_phone:'Contact number', field_email:'Email address',
+    field_service:'Service', field_address:'Your address', field_date:'Appointment date', field_time:'Appointment time',
+    field_citizenship_upload:'Upload citizenship document (photo)', field_citizenship_hint:'Used for patient registration only. Handled confidentially.',
+    field_paymethod:'Payment method', pay_online:'💳 Pay Online (eSewa)', pay_clinic:'🏥 Pay at Clinic',
+    esewa_note:'Scan this QR code from your eSewa app to pay the service fee, then upload your payment screenshot below.',
+    field_payment_upload:'Upload payment screenshot', field_payment_hint:'Required for online payments — admin will verify this before confirming your appointment.',
+    book_submit:'Book Appointment',
+    confirm_eyebrow:'Appointment received', confirm_h:'Thank you — your request is being reviewed!',
+    confirm_p:"We'll email you once the clinic confirms or declines your appointment.", confirm_home_btn:'Back to Home',
+    admin_title:'Admin Panel', admin_sub:'Enter the admin password to review and manage appointments from any device.',
+    admin_pass_label:'Password', admin_login_btn:'Log In',
+    admin_default_note:' <b></b> ',
+    admin_control_eyebrow:'Clinic Control', admin_dashboard_h:'Appointment Dashboard', admin_logout_btn:'Log out'
+  },
+  np: {
+    nav_home:'गृहपृष्ठ', nav_about:'हाम्रो बारे', nav_services:'सेवाहरू', nav_members:'सदस्यहरू', nav_book:'अपोइन्टमेन्ट बुक गर्नुहोस्', nav_admin:'एडमिन',
+    hero_eyebrow:'२४ घण्टा खुला · टोखा, सिमचौर',
+    hero_title:'तपाईंको नजिकैको स्याहार,', hero_title_em:'दिन होस् वा रात।',
+    hero_lede:'फ्रान्कफर्ट पोलिक्लिनिकले टोखा समुदायका लागि प्रयोगशाला, डायग्नोस्टिक, दन्त, आँखा र विशेषज्ञ स्याहार लगायत सम्पूर्ण सेवा उपलब्ध गराउँछ — २४ घण्टा खुला, अनलाइन अपोइन्टमेन्ट सहित।',
+    hero_badge1:'२४ घण्टा खुला', hero_badge3:'ई-सेवा र क्लिनिकमा भुक्तानी',
+    hero_btn_book:'अपोइन्टमेन्ट बुक गर्नुहोस् →', hero_btn_services:'सेवाहरू हेर्नुहोस्',
+    home_why_eyebrow:'बिरामीहरूले किन हामीलाई रोज्छन्', home_why_title:'सामुदायिक स्याहार, सधैं खुला',
+    mile1_h:'सधैं खुला', mile1_p:'२४ घण्टा उपलब्ध',
+    mile2_h:'टोखामा अवस्थित', mile2_p:'स्थानीय समुदायलाई सेवा',
+    mile3_h:'अनलाइन बुकिङ', mile3_p:'जुनसुकै उपकरणबाट, जुनसुकै समयमा बुक गर्नुहोस्',
+    mile4_h:'ई-सेवा उपलब्ध', mile4_p:'अनलाइन वा क्लिनिकमा भुक्तानी गर्नुहोस्',
+    about_eyebrow:'हाम्रो बारे', about_title:'टोखा, सिमचौरका लागि दैनिक स्वास्थ्य सेवा',
+    about_body:'फ्रान्कफर्ट पोलिक्लिनिक प्रा. लि. स्थानीय समुदायलाई भरपर्दो र व्यापक स्वास्थ्य सेवा दिन स्थापना गरिएको हो, शहर जानु नपरोस् भनेर। हामी २४ घण्टा खुला छौं।',
+    about_expect_h:'के अपेक्षा गर्ने',
+    about_expect_p:'हाम्रो टिमले प्रयोगशाला, डायग्नोस्टिक, दन्त, आँखा र विशेषज्ञ स्याहार सेवा प्रदान गर्दछ। दर्ताको लागि आफ्नो नागरिकता कागजात लिएर आउनुहोस्।',
+    about_directions:'दिशा हेर्नुहोस् ↗',
+    about_visit_h:'हामीलाई भेट्नुहोस्', about_address_label:'ठेगाना', about_phone_label:'फोन',
+    about_hours_label:'समय', about_hours_value:'२४ घण्टा खुला',
+    about_appt_label:'अपोइन्टमेन्ट', about_appt_value:'वाक-इन र अनलाइन बुकिङ',
+    services_eyebrow:'हाम्रा सेवाहरू', services_title:'उपलब्ध सेवाहरू',
+    services_note:'तलका मूल्यहरू अस्थायी नमूना मात्र हुन् — तयार हुँदा कोडमा वास्तविक मूल्यले प्रतिस्थापन गर्नुहोस्।',
+    labs_eyebrow:'प्रयोगशाला परीक्षणहरू', labs_title:'हाम्रा ल्याब टेस्टहरू खोज्नुहोस्',
+    labs_note:'नामद्वारा खोज्न मिल्ने ६८ ल्याब टेस्टहरू। मूल्यहरू अस्थायी नमूना हुन् — पछि वास्तविक मूल्यले प्रतिस्थापन गर्नुहोस्।',
+    labs_search_placeholder:'टेस्ट खोज्नुहोस्, जस्तै CBC, TSH, डेंगु...', labs_search_btn:'खोज्नुहोस्',
+    members_eyebrow:'हाम्रो टिम', members_title:'हाम्रो टिमलाई भेट्नुहोस्',
+    members_note:'तलका नामहरू अस्थायी नमूना हुन् र फोटोहरू खाली छाडिएका छन् — वास्तविक टिमले प्रतिस्थापन गर्न कोडमा CREW हेर्नुहोस्।',
+    book_eyebrow:'अपोइन्टमेन्ट बुक गर्नुहोस्', book_title:'तपाईंको भ्रमण सुरक्षित गर्नुहोस्',
+    book_note:'तलका विवरणहरू भर्नुहोस्। समीक्षा भएपछि हामी इमेलद्वारा पुष्टि गर्नेछौं।',
+    field_fullname:'पूरा नाम', field_citizenship:'नागरिकता नम्बर', field_phone:'सम्पर्क नम्बर', field_email:'इमेल ठेगाना',
+    field_service:'सेवा', field_address:'तपाईंको ठेगाना', field_date:'अपोइन्टमेन्ट मिति', field_time:'अपोइन्टमेन्ट समय',
+    field_citizenship_upload:'नागरिकता कागजात अपलोड गर्नुहोस् (फोटो)', field_citizenship_hint:'बिरामी दर्ताका लागि मात्र प्रयोग गरिन्छ। गोप्य राखिन्छ।',
+    field_paymethod:'भुक्तानी विधि', pay_online:'💳 अनलाइन भुक्तानी (ई-सेवा)', pay_clinic:'🏥 क्लिनिकमा भुक्तानी',
+    esewa_note:'सेवा शुल्क तिर्न आफ्नो ई-सेवा एपबाट यो QR कोड स्क्यान गर्नुहोस्, त्यसपछि तलको भुक्तानी स्क्रिनसट अपलोड गर्नुहोस्।',
+    field_payment_upload:'भुक्तानी स्क्रिनसट अपलोड गर्नुहोस्', field_payment_hint:'अनलाइन भुक्तानीका लागि आवश्यक — पुष्टि गर्नु अघि एडमिनले यो प्रमाणित गर्नेछ।',
+    book_submit:'अपोइन्टमेन्ट बुक गर्नुहोस्',
+    confirm_eyebrow:'अपोइन्टमेन्ट प्राप्त भयो', confirm_h:'धन्यवाद — तपाईंको अनुरोध समीक्षामा छ!',
+    confirm_p:'क्लिनिकले तपाईंको अपोइन्टमेन्ट पुष्टि वा अस्वीकार गरेपछि हामी इमेल गर्नेछौं।', confirm_home_btn:'गृहपृष्ठमा फर्कनुहोस्',
+    admin_title:'एडमिन प्यानल', admin_sub:'जुनसुकै उपकरणबाट अपोइन्टमेन्टहरू हेर्न र व्यवस्थापन गर्न पासवर्ड प्रविष्ट गर्नुहोस्।',
+    admin_pass_label:'पासवर्ड', admin_login_btn:'लग इन गर्नुहोस्',
+    admin_default_note:' <b></b> ',
+    admin_control_eyebrow:'क्लिनिक नियन्त्रण', admin_dashboard_h:'अपोइन्टमेन्ट ड्यासबोर्ड', admin_logout_btn:'लग आउट गर्नुहोस्'
+  }
+};
+
+let currentLang = localStorage.getItem('clinic_lang') || 'en';
+function applyLanguage(lang){
+  currentLang = lang;
+  localStorage.setItem('clinic_lang', lang);
+  const dict = TRANSLATIONS[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-placeholder');
+    if(dict[key] !== undefined) el.placeholder = dict[key];
+  });
+  document.getElementById('langEnBtn').classList.toggle('active', lang==='en');
+  document.getElementById('langNpBtn').classList.toggle('active', lang==='np');
+  document.documentElement.lang = lang === 'np' ? 'ne' : 'en';
+}
+document.getElementById('langEnBtn').addEventListener('click', ()=>applyLanguage('en'));
+document.getElementById('langNpBtn').addEventListener('click', ()=>applyLanguage('np'));
+
+/* ---------- TOAST ---------- */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>t.classList.remove('show'), 3600);
+}
+
+/* ---------- NAVIGATION ---------- */
+function goTo(sectionId){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(sectionId).classList.add('active');
+  document.querySelectorAll('#mainNav button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.nav === sectionId);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(sectionId === 'admin'){
+    renderAdmin();
+    if(sessionStorage.getItem('clinic_admin_token')){ startAdminAutoRefresh(); }
+  } else {
+    stopAdminAutoRefresh();
+  }
+}
+document.querySelectorAll('[data-nav]').forEach(el=>{
+  el.addEventListener('click', e=>{
+    e.preventDefault();
+    goTo(el.dataset.nav);
+  });
+});
+
+/* ---------- RENDER GENERAL SERVICES ---------- */
+const serviceGrid = document.getElementById('serviceGrid');
+const serviceSelect = document.getElementById('service');
+function renderServiceOptions(){
+  serviceSelect.innerHTML = '';
+  ALL_BOOKABLE.forEach(s=>{
+    const opt = document.createElement('option');
+    opt.value = `${s.name} (Rs ${s.price})`;
+    opt.textContent = `${s.name} — Rs ${s.price}`;
+    serviceSelect.appendChild(opt);
+  });
+}
+SERVICES.forEach(s=>{
+  serviceGrid.insertAdjacentHTML('beforeend', `
+    <div class="service-card">
+      <div class="service-top"><h4>${s.name}</h4><span class="service-price mono">Rs ${s.price}</span></div>
+      <p class="service-desc">${s.desc}</p>
+      <button type="button" class="btn btn-primary bookServiceBtn" data-service="${s.name}">Book →</button>
+    </div>`);
+});
+renderServiceOptions();
+
+/* ---------- RENDER + SEARCH LAB TESTS ---------- */
+const labGrid = document.getElementById('labGrid');
+const labCountNote = document.getElementById('labCountNote');
+function renderLabTests(filterText){
+  const q = (filterText || '').trim().toLowerCase();
+  const filtered = q ? LAB_TESTS.filter(t => t.name.toLowerCase().includes(q)) : LAB_TESTS;
+  labCountNote.textContent = q ? `${filtered.length} of ${LAB_TESTS.length} tests match "${filterText}"` : `Showing all ${LAB_TESTS.length} tests`;
+  if(filtered.length === 0){
+    labGrid.innerHTML = '<div class="lab-empty">No matching test found.</div>';
+    return;
+  }
+  labGrid.innerHTML = filtered.map(t => `
+    <div class="lab-card">
+      <div>
+        <div class="lab-no mono">#${t.no}</div>
+        <div class="lab-name">${t.name}</div>
+      </div>
+      <div class="lab-right">
+        <span class="lab-price mono">Rs ${t.price}</span>
+        <button type="button" class="bookLabBtn" data-test="${t.name}">Book</button>
+      </div>
+    </div>`).join('');
+  labGrid.querySelectorAll('.bookLabBtn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const target = LAB_TESTS.find(t=>t.name===btn.dataset.test);
+      if(target) serviceSelect.value = `${target.name} (Rs ${target.price})`;
+      goTo('book');
+    });
+  });
+}
+renderLabTests('');
+document.getElementById('labSearch').addEventListener('input', e => renderLabTests(e.target.value));
+document.getElementById('labSearchBtn').addEventListener('click', () => renderLabTests(document.getElementById('labSearch').value));
+
+/* delegate general-service "Book" buttons (added after initial render above) */
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.bookServiceBtn');
+  if(!btn) return;
+  const target = SERVICES.find(s=>s.name===btn.dataset.service);
+  if(target) serviceSelect.value = `${target.name} (Rs ${target.price})`;
+  goTo('book');
+});
+
+/* ---------- RENDER CREW ---------- */
+const crewGrid = document.getElementById('crewGrid');
+CREW.forEach(c=>{
+  const photoHtml = c.photoUrl
+    ? `<img src="${c.photoUrl}" alt="${c.name}" style="width:88px;height:88px;border-radius:50%;margin:0 auto 12px;object-fit:cover;border:3px solid var(--coral);">`
+    : `<div class="photo-slot">📷</div>`;
+  crewGrid.insertAdjacentHTML('beforeend', `
+    <div class="crew-card">
+      ${photoHtml}
+      <h4>${c.name}</h4>
+      <span class="crew-role">${c.role}</span>
+    </div>`);
+});
+
+/* ---------- FILE UPLOAD PREVIEWS ---------- */
+let citizenshipBase64 = null;
+document.getElementById('citizenshipUpload').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    citizenshipBase64 = reader.result;
+    const img = document.getElementById('citizenshipPreview');
+    img.src = citizenshipBase64;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+});
+
+let paymentBase64 = null;
+document.getElementById('paymentUpload').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    paymentBase64 = reader.result;
+    const img = document.getElementById('paymentPreview');
+    img.src = paymentBase64;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+});
+
+const onlineBlock = document.getElementById('onlineBlock');
+document.querySelectorAll('input[name="payMethod"]').forEach(r=>{
+  r.addEventListener('change', ()=>{
+    onlineBlock.style.display = document.querySelector('input[name="payMethod"]:checked').value === 'online' ? 'block' : 'none';
+  });
+});
+
+/* =====================================================================
+   BACKEND API HELPERS
+   ===================================================================== */
+async function apiCreateAppointment(payload){
+  const res = await fetch(`${API_BASE_URL}/api/appointments`, {
+    method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.error || 'Failed to book appointment — please try again.');
+  return data;
+}
+async function apiAdminLogin(password){
+  const res = await fetch(`${API_BASE_URL}/api/admin/login`, {
+    method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({password})
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.error || 'Login failed');
+  return data.token;
+}
+async function apiGetAppointments(){
+  const res = await fetch(`${API_BASE_URL}/api/appointments`, {
+    headers:{'Authorization':'Bearer '+sessionStorage.getItem('clinic_admin_token')}
+  });
+  if(res.status===401) throw new Error('unauthorized');
+  if(!res.ok) throw new Error('Failed to load appointments');
+  return res.json();
+}
+async function apiUpdateStatus(code, status){
+  const res = await fetch(`${API_BASE_URL}/api/appointments/${code}/status`, {
+    method:'PATCH',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+sessionStorage.getItem('clinic_admin_token')},
+    body: JSON.stringify({status})
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.error || 'Failed to update appointment');
+  return data;
+}
+
+/* ---------- SUBMIT BOOKING ---------- */
+const bookForm = document.getElementById('bookForm');
+const confirmCard = document.getElementById('confirmCard');
+bookForm.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const fullname = document.getElementById('fullname').value.trim();
+  const citizenshipNo = document.getElementById('citizenshipNo').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const service = document.getElementById('service').value;
+  const address = document.getElementById('address').value.trim();
+  const appointmentDate = document.getElementById('apptDate').value;
+  const appointmentTime = document.getElementById('apptTime').value;
+  const payMethod = document.querySelector('input[name="payMethod"]:checked').value;
+
+  if(!fullname || !citizenshipNo || !phone || !email || !address){ toast('Please fill in all required fields'); return; }
+  if(!/^[0-9+\-\s]{7,15}$/.test(phone)){ toast('Please enter a valid phone number'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Please enter a valid email address'); return; }
+  if(!appointmentDate || !appointmentTime){ toast('Please choose an appointment date and time'); return; }
+  if(!citizenshipBase64){ toast('Please upload your citizenship document'); return; }
+  if(payMethod === 'online' && !paymentBase64){ toast('Please upload your eSewa payment screenshot'); return; }
+
+  const payload = {
+    fullname, citizenshipNo, phone, email, service, address,
+    appointmentDate, appointmentTime,
+    citizenshipImage: citizenshipBase64,
+    payMethod,
+    paymentImage: payMethod==='online' ? paymentBase64 : null
+  };
+
+  const btn = document.getElementById('bookBtn');
+  btn.disabled = true; btn.textContent = 'Booking…';
+  try{
+    const appt = await apiCreateAppointment(payload);
+    document.getElementById('confirmId').textContent = '#' + appt.id;
+    bookForm.style.display = 'none';
+    confirmCard.style.display = 'block';
+    confirmCard.scrollIntoView({behavior:'smooth'});
+
+    bookForm.reset();
+    citizenshipBase64 = null; paymentBase64 = null;
+    document.getElementById('citizenshipPreview').style.display = 'none';
+    document.getElementById('paymentPreview').style.display = 'none';
+
+    toast(`Appointment ${appt.id} booked! We'll email you once it's confirmed.`);
+  } catch(err){
+    toast(`⚠️ ${err.message}`);
+  } finally {
+    btn.disabled = false; btn.textContent = TRANSLATIONS[currentLang].book_submit;
+  }
+});
+
+/* =====================================================================
+   ADMIN PANEL
+   ===================================================================== */
+document.getElementById('adminLoginBtn').addEventListener('click', tryAdminLogin);
+document.getElementById('adminPass').addEventListener('keydown', e=>{ if(e.key==='Enter') tryAdminLogin(); });
+
+async function tryAdminLogin(){
+  const val = document.getElementById('adminPass').value;
+  const err = document.getElementById('adminLoginError');
+  const btn = document.getElementById('adminLoginBtn');
+  btn.disabled = true; btn.textContent = 'Logging in…';
+  try{
+    const token = await apiAdminLogin(val);
+    sessionStorage.setItem('clinic_admin_token', token);
+    err.textContent = '';
+    document.getElementById('adminPass').value='';
+    showAdminDash();
+  } catch(e){
+    err.textContent = (e.message === 'Failed to fetch' || e.message.includes('fetch'))
+      ? 'Could not reach the server — check that the Flask backend is running and API_BASE_URL is correct.'
+      : e.message;
+  } finally {
+    btn.disabled = false; btn.textContent = TRANSLATIONS[currentLang].admin_login_btn;
+  }
+}
+document.getElementById('adminLogoutBtn').addEventListener('click', ()=>{
+  sessionStorage.removeItem('clinic_admin_token');
+  document.getElementById('adminDashView').style.display='none';
+  document.getElementById('adminLoginView').style.display='block';
+  stopAdminAutoRefresh();
+});
+
+function showAdminDash(){
+  document.getElementById('adminLoginView').style.display='none';
+  document.getElementById('adminDashView').style.display='block';
+  renderApptList();
+  startAdminAutoRefresh();
+}
+function renderAdmin(){
+  if(sessionStorage.getItem('clinic_admin_token')){
+    document.getElementById('adminLoginView').style.display='none';
+    document.getElementById('adminDashView').style.display='block';
+    renderApptList();
+  }
+}
+
+let statusFilter = 'all';
+document.querySelectorAll('#statusTabs button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    statusFilter = btn.dataset.status;
+    document.querySelectorAll('#statusTabs button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderApptList();
+  });
+});
+
+let allApptCache = [];
+async function renderApptList(){
+  const list = document.getElementById('apptList');
+  const connBadge = document.getElementById('connBadge');
+  try{
+    allApptCache = await apiGetAppointments();
+    connBadge.textContent = '🟢 Live · syncing every 1s';
+    connBadge.className = 'conn-badge ok';
+  } catch(err){
+    if(err.message === 'unauthorized'){
+      sessionStorage.removeItem('clinic_admin_token');
+      document.getElementById('adminDashView').style.display='none';
+      document.getElementById('adminLoginView').style.display='block';
+      document.getElementById('adminLoginError').textContent = 'Your session expired — please log in again.';
+      stopAdminAutoRefresh();
+      return;
+    }
+    connBadge.textContent = '🔴 Server unreachable';
+    connBadge.className = 'conn-badge bad';
+    return;
+  }
+
+  document.getElementById('apptCountReadout').textContent =
+    `${allApptCache.length} appointments on file · synced live from the Flask server`;
+
+  const appts = allApptCache.filter(a => statusFilter==='all' || a.status===statusFilter);
+  if(appts.length===0){
+    list.innerHTML = '<div class="empty-state">No appointments here yet.</div>';
+    return;
+  }
+  list.innerHTML = appts.map(a=>{
+    const paymentHtml = a.paymentImage
+      ? `<img src="${a.paymentImage}" class="doc-thumb" data-full="${a.paymentImage}" alt="Payment proof">`
+      : `<span style="color:var(--ink-soft);">— (Pay at clinic)</span>`;
+    return `
+    <div class="appt-card ${a.status}" data-id="${a.id}">
+      <div class="appt-top">
+        <div>
+          <span class="appt-id">#${a.id}</span>
+          <div class="appt-time">Booked ${new Date(a.timestamp).toLocaleString()}</div>
+        </div>
+        <span class="pill ${a.status}">${a.status}</span>
+      </div>
+      <div class="appt-grid">
+        <div class="appt-side">
+          <p><strong>Patient:</strong> ${a.fullname}</p>
+          <p><strong>Citizenship No:</strong> ${a.citizenshipNo}</p>
+          <p><strong>Phone:</strong> ${a.phone}</p>
+          <p><strong>Email:</strong> ${a.email}</p>
+          <p><strong>Address:</strong> ${a.address}</p>
+        </div>
+        <div class="appt-side">
+          <p><strong>Service:</strong> ${a.service}</p>
+          <p><strong>Date &amp; Time:</strong> ${a.appointmentDate} at ${a.appointmentTime}</p>
+          <p><strong>Payment:</strong> ${a.payMethod === 'online' ? 'Pay Online (eSewa)' : 'Pay at Clinic'}</p>
+          <p><strong>Citizenship doc:</strong><br>
+            <img src="${a.citizenshipImage}" class="doc-thumb" data-full="${a.citizenshipImage}" alt="Citizenship document">
+          </p>
+          <p><strong>Payment proof:</strong><br>${paymentHtml}</p>
+        </div>
+      </div>
+      ${a.status==='pending' ? `
+      <div class="appt-actions">
+        <button class="btn btn-ok accept-btn" data-id="${a.id}">✓ Accept</button>
+        <button class="btn btn-danger decline-btn" data-id="${a.id}">✕ Decline</button>
+      </div>` : ''}
+    </div>`;
+  }).join('');
+
+  list.querySelectorAll('.accept-btn').forEach(b=>b.addEventListener('click', ()=>setApptStatus(b.dataset.id,'accepted')));
+  list.querySelectorAll('.decline-btn').forEach(b=>b.addEventListener('click', ()=>setApptStatus(b.dataset.id,'declined')));
+  list.querySelectorAll('.doc-thumb').forEach(img=>img.addEventListener('click', ()=>openImgModal(img.dataset.full)));
+}
+
+async function setApptStatus(id, status){
+  try{
+    const result = await apiUpdateStatus(id, status);
+    logActivity(`Appointment #${id} marked ${status}. ${result.emailSent ? '📧 Email sent to patient.' : '⚠️ Email NOT sent: ' + (result.emailError || 'unknown error')}`);
+    toast(result.emailSent ? `Appointment #${id} ${status} — email sent!` : `Appointment #${id} ${status} — email failed to send`);
+    renderApptList();
+  } catch(err){
+    toast(`⚠️ ${err.message}`);
+  }
+}
+
+function logActivity(text){
+  const el = document.getElementById('activityLog');
+  const time = new Date().toLocaleTimeString();
+  if(el.textContent.trim()==='No actions yet.'){ el.innerHTML=''; }
+  el.insertAdjacentHTML('afterbegin', `<div class="activity-entry">[${time}] ${text}</div>`);
+}
+
+/* ---------- IMAGE MODAL ---------- */
+const imgModal = document.getElementById('imgModal');
+function openImgModal(src){
+  document.getElementById('imgModalImg').src = src;
+  imgModal.classList.add('show');
+}
+document.getElementById('imgModalClose').addEventListener('click', ()=>imgModal.classList.remove('show'));
+imgModal.addEventListener('click', e=>{ if(e.target===imgModal) imgModal.classList.remove('show'); });
+
+/* ---------- AUTO-REFRESH (every 1 second while admin dashboard is open) ---------- */
+let adminRefreshTimer = null;
+function startAdminAutoRefresh(){
+  stopAdminAutoRefresh();
+  adminRefreshTimer = setInterval(()=>{
+    if(sessionStorage.getItem('clinic_admin_token') && document.getElementById('admin').classList.contains('active')){
+      renderApptList();
+    }
+  }, 1000);
+}
+function stopAdminAutoRefresh(){
+  if(adminRefreshTimer){ clearInterval(adminRefreshTimer); adminRefreshTimer = null; }
+}
+
+/* ---------- INIT ---------- */
+applyLanguage(currentLang);
+</script>
+</body>
+</html>
