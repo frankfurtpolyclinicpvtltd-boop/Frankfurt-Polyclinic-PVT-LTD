@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Frankfurt Polyclinic Pvt. Ltd.</title>
+ <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -82,9 +83,6 @@ nav.routes button.active{background:var(--coral);color:#fff;font-weight:700;}
   background-size:cover;
   background-position:center;
 }
-/* images/clinic-bg.png = your real storefront photo. The layered dark-blue
-   gradients above dim it Netflix-style so headline text stays readable;
-   adjust the opacity numbers if you want it lighter/darker. */
 .hero-inner{text-shadow:0 2px 12px rgba(0,0,0,.45);}
 .hero-brand{
   position:absolute;top:26px;left:0;right:0;
@@ -144,6 +142,8 @@ nav.routes button.active{background:var(--coral);color:#fff;font-weight:700;}
 .search-row{display:flex;gap:10px;margin:18px 0 22px;max-width:480px;}
 .search-row input{flex:1;padding:11px 14px;border:1px solid var(--line);border-radius:999px;font-family:var(--font-body);font-size:.9rem;}
 .search-row button{background:var(--teal);color:#fff;border:none;padding:11px 20px;border-radius:999px;font-weight:700;font-size:.85rem;}
+.lab-cat-heading{font-family:var(--font-mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin:26px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line);}
+.lab-cat-heading:first-of-type{margin-top:6px;}
 .lab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;}
 .lab-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
 .lab-card .lab-name{font-size:.85rem;font-weight:600;}
@@ -355,14 +355,14 @@ footer p{margin:0;font-size:.82rem;color:#C8DCD3;}
     <div class="section-head" style="padding-top:50px;">
       <div class="eyebrow" data-i18n="labs_eyebrow">Laboratory Tests</div>
       <h2 data-i18n="labs_title">Search Our Lab Tests</h2>
-      <p data-i18n="labs_note">68 lab tests, searchable by name. Prices are random placeholders — replace with real prices later.</p>
+      <p data-i18n="labs_note">109 lab tests from our official rate list, searchable by name.</p>
     </div>
     <div class="search-row">
       <input type="text" id="labSearch" placeholder="Search a test, e.g. CBC, TSH, Dengue..." data-i18n-placeholder="labs_search_placeholder">
       <button type="button" id="labSearchBtn" data-i18n="labs_search_btn">Search</button>
     </div>
     <p class="lab-count-note" id="labCountNote"></p>
-    <div class="lab-grid" id="labGrid"></div>
+    <div id="labGrid"></div>
   </div>
 </section>
 
@@ -491,7 +491,6 @@ footer p{margin:0;font-size:.82rem;color:#C8DCD3;}
         </div>
         <button class="btn btn-primary" id="adminLoginBtn" style="width:100%;justify-content:center;" data-i18n="admin_login_btn">Log In</button>
         <p class="hint" id="adminLoginError" style="color:var(--bad);"></p>
-        <p class="hint" data-i18n="admin_default_note"> <b></b>   <code></code> </p>
       </div>
     </div>
 
@@ -546,22 +545,12 @@ footer p{margin:0;font-size:.82rem;color:#C8DCD3;}
 </footer>
 
 <script>
-/* =====================================================================
-   FRANKFURT POLYCLINIC PVT. LTD. — APP LOGIC
-   Same architecture as the restaurant project: Flask + database backend
-   so patients anywhere can book, admin sees every booking live from any
-   device, with Gmail email notifications on accept/decline.
-   ===================================================================== */
-
 document.getElementById('year').textContent = new Date().getFullYear();
 
 /* ---------- CONFIG ---------- */
-const API_BASE_URL = "https://frankfurtpolyclinic.pythonanywhere.com"; // TODO: set to your deployed Flask backend URL
+const API_BASE_URL = "https://frankfurtpolyclinic.pythonanywhere.com";
 
-/* ---------- SEEDED PLACEHOLDER PRICES ----------
-   Generates a stable, varied-looking "random" price for each item so the
-   site looks complete. Replace real numbers directly in SERVICES /
-   LAB_TESTS below whenever you're ready — this generator is just filler. */
+/* ---------- SEEDED PLACEHOLDER PRICES (used only for general Services) ---------- */
 function seededPrice(seed, min, max, step){
   let x = Math.sin(seed * 9973.13) * 10000;
   x = x - Math.floor(x);
@@ -582,27 +571,135 @@ const SERVICES = SERVICE_NAMES.map((name, i) => ({
   desc: 'Contact the clinic for details on this service.'
 }));
 
-/* ---------- LAB TESTS (68 tests, placeholder prices — edit freely) ---------- */
-const LAB_TEST_NAMES = [
-  'CBC','ESR','HB','LFT','RFT','ELECTROLYTE','LIPID PROFILE','UREA','CREAT','CALCIUM',
-  'CRP','RA FACTOR','DENGUE PROFILE','PROLACTINE','DENGUE NS1','HBSAG','HIV','SGOT','SGPT','BSL F/PP',
-  'FBS','PPBS','RBS','MALARIA PARASITE','RAPID MP','URIC ACID','VDRL','WIDAL','UPT','URINE ROUTINE',
-  'STOOL ROUTINE','PSA','CORTISOL','HLA-B27','TFT','TSH','VITAMIN B12','VITAMIN D3','IRON STUDY','ANC PROFILE',
-  'B-HCG','SERUM IGE','AMH','HBA1C','CHIKUNGUNYA','FSH','LH','BILIRUBIN','PROGESTERONE','TESTOSTERONE',
-  'HOMOCYSTEINE','BLOOD C/S','URINE C/S','BLOOD GROUP','PT INR','HB-ELECTROPHORESIS','S. FERRITIN','HCV','DOUBLE MARKER','TRIPLE MARKER',
-  'QUADRUPLE MARKER','COVID-19 ANTIBODY','FREE TFT','GTT','LIPASE','AMYLASE','ANA','FOLIC ACID'
+/* ---------- LAB TESTS ----------
+   Real rate-list data transcribed from your official price board photo,
+   grouped by category exactly as shown on the board (109 tests total).
+   Two tests (#67 Rh Factor, #68 CRP Test) show two prices on the board
+   depending on method, kept as "400/700" — split them into two separate
+   rows yourself if you'd rather show one fixed price per test.        */
+const LAB_TESTS = [
+  // Haematology
+  {no:1,  name:'CBC', category:'Haematology', price:'500'},
+  {no:2,  name:'HB', category:'Haematology', price:'150'},
+  {no:3,  name:'ESR', category:'Haematology', price:'150'},
+  {no:4,  name:'Blood Grouping & Rh', category:'Haematology', price:'100'},
+  {no:5,  name:'Malaria Parasite (Serology)', category:'Haematology', price:'500'},
+  {no:6,  name:'BT, CT', category:'Haematology', price:'200'},
+  {no:7,  name:'Peripheral Blood Smear (PBS)', category:'Haematology', price:'1000'},
+  {no:8,  name:'Platelets', category:'Haematology', price:'250'},
+  {no:9,  name:'RBC Count', category:'Haematology', price:'250'},
+  {no:10, name:'HBA1C', category:'Haematology', price:'1000'},
+  {no:11, name:'Reticulocyte Count', category:'Haematology', price:'400'},
+  {no:12, name:'Total Eosinophil Count (AEC)', category:'Haematology', price:'300'},
+  {no:13, name:'PT-INR', category:'Haematology', price:'500'},
+  {no:14, name:'APTT', category:'Haematology', price:'800'},
+  // Urine Examination
+  {no:15, name:'Urine for R/E & M/E', category:'Urine Examination', price:'150'},
+  {no:16, name:'Urine for Pregnancy Test', category:'Urine Examination', price:'150'},
+  {no:17, name:'Urine for Bence-Jones Protein', category:'Urine Examination', price:'400'},
+  {no:18, name:'Acetone/Ketone Bodies', category:'Urine Examination', price:'300'},
+  {no:19, name:'Urine for 24 Hour Protein', category:'Urine Examination', price:'400'},
+  {no:20, name:'Urine for 24 Hour Creatinine', category:'Urine Examination', price:'400'},
+  // Stool Examination
+  {no:21, name:'Stool for R/E & M/E', category:'Stool Examination', price:'150'},
+  {no:22, name:'Stool O/B Test', category:'Stool Examination', price:'300'},
+  // Microbiology/Others
+  {no:23, name:'Gram Stain', category:'Microbiology/Others', price:'350'},
+  {no:24, name:'Sputum for AFB (1st Sample)', category:'Microbiology/Others', price:'300'},
+  {no:25, name:'KOH Preparation', category:'Microbiology/Others', price:'400'},
+  {no:26, name:'Mantoux Test', category:'Microbiology/Others', price:'400'},
+  {no:27, name:'Dengue Test', category:'Microbiology/Others', price:'1500'},
+  {no:28, name:'Semen Analysis', category:'Microbiology/Others', price:'500'},
+  {no:29, name:'Urine Culture/Sensitivity', category:'Microbiology/Others', price:'500'},
+  {no:30, name:'Blood Culture/Sensitivity', category:'Microbiology/Others', price:'800'},
+  {no:31, name:'Pus Culture/Sensitivity', category:'Microbiology/Others', price:'600'},
+  {no:32, name:'Scrub Typhus IgG/IgM', category:'Microbiology/Others', price:'2000'},
+  // Biochemistry Test
+  {no:33, name:'Blood Sugar (R)', category:'Biochemistry', price:'50'},
+  {no:34, name:'Blood Sugar (F)', category:'Biochemistry', price:'50'},
+  {no:35, name:'Blood Sugar (PP)', category:'Biochemistry', price:'50'},
+  {no:36, name:'Blood Sugar (F&PP)', category:'Biochemistry', price:'100'},
+  {no:37, name:'Uric Acid', category:'Biochemistry', price:'250'},
+  {no:38, name:'Liver Function Test (LFT)', category:'Biochemistry', price:'1000'},
+  {no:39, name:'Gamma GT', category:'Biochemistry', price:'600'},
+  {no:40, name:'Bilirubin (T&D)', category:'Biochemistry', price:'300'},
+  {no:41, name:'SGPT/ALT', category:'Biochemistry', price:'250'},
+  {no:42, name:'SGOT/AST', category:'Biochemistry', price:'250'},
+  {no:43, name:'Albumin', category:'Biochemistry', price:'200'},
+  {no:44, name:'Total Protein', category:'Biochemistry', price:'200'},
+  {no:45, name:'Alkaline Phosphatase (ALP)', category:'Biochemistry', price:'250'},
+  {no:46, name:'Lipid Profile', category:'Biochemistry', price:'1000'},
+  {no:47, name:'Cholesterol', category:'Biochemistry', price:'250'},
+  {no:48, name:'Triglyceride', category:'Biochemistry', price:'250'},
+  {no:49, name:'HDL', category:'Biochemistry', price:'350'},
+  {no:50, name:'LDL', category:'Biochemistry', price:'350'},
+  {no:51, name:'Renal Function Test (RFT)', category:'Biochemistry', price:'1000'},
+  {no:52, name:'Urea', category:'Biochemistry', price:'200'},
+  {no:53, name:'Creatinine', category:'Biochemistry', price:'200'},
+  {no:54, name:'Sodium/Potassium (Na/K)', category:'Biochemistry', price:'500'},
+  {no:55, name:'Phosphorus', category:'Biochemistry', price:'500'},
+  {no:56, name:'Calcium', category:'Biochemistry', price:'500'},
+  {no:57, name:'CPK MB', category:'Biochemistry', price:'600'},
+  {no:58, name:'Amylase', category:'Biochemistry', price:'600'},
+  {no:59, name:'Lipase', category:'Biochemistry', price:'1000'},
+  {no:60, name:'LDH', category:'Biochemistry', price:'600'},
+  {no:61, name:'ADA', category:'Biochemistry', price:'1000'},
+  {no:62, name:'Micro Albumin', category:'Biochemistry', price:'1000'},
+  {no:63, name:'Thyroid Function Test', category:'Biochemistry', price:'1000'},
+  {no:64, name:'TSH', category:'Biochemistry', price:'600'},
+  {no:65, name:'FT3', category:'Biochemistry', price:'500'},
+  {no:66, name:'FT4', category:'Biochemistry', price:'500'},
+  {no:67, name:'Rh Factor (Quantitative)', category:'Biochemistry', price:'400/700'},
+  {no:68, name:'CRP Test (Quantitative)', category:'Biochemistry', price:'400/700'},
+  {no:69, name:'ASO Titre', category:'Biochemistry', price:'400'},
+  {no:70, name:'VDRL / Syphilis', category:'Biochemistry', price:'400'},
+  {no:71, name:'Troponin-I', category:'Biochemistry', price:'1000'},
+  // Serology
+  {no:72, name:'TPHA', category:'Serology', price:'500'},
+  {no:73, name:'HIV 1/2', category:'Serology', price:'500'},
+  {no:74, name:'HBsAg', category:'Serology', price:'600'},
+  {no:75, name:'HCV', category:'Serology', price:'400'},
+  {no:76, name:'Widal Test', category:'Serology', price:'1500'},
+  {no:77, name:'H-pylori Antigen', category:'Serology', price:'1500'},
+  {no:78, name:'H-pylori Antibody', category:'Serology', price:'1250'},
+  {no:79, name:'Typhoid IgG/IgM', category:'Serology', price:'800'},
+  // Hormone & Tumor Markers
+  {no:80,  name:'Anti CCP', category:'Hormone & Tumor Markers', price:'3000'},
+  {no:81,  name:'CA-125 (Ovarian Cancer Marker)', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:82,  name:'CEA (Colon Cancer Marker)', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:83,  name:'Estradiol', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:84,  name:'Progesterone', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:85,  name:'Serum IgE', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:86,  name:'FSH', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:87,  name:'PTH', category:'Hormone & Tumor Markers', price:'3000'},
+  {no:88,  name:'Prolactin', category:'Hormone & Tumor Markers', price:'1500'},
+  {no:89,  name:'LH', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:90,  name:'Iron', category:'Hormone & Tumor Markers', price:'800'},
+  {no:91,  name:'TIBC', category:'Hormone & Tumor Markers', price:'1000'},
+  {no:92,  name:'Ferritin', category:'Hormone & Tumor Markers', price:'1500'},
+  {no:93,  name:'Iron Profile', category:'Hormone & Tumor Markers', price:'2800'},
+  {no:94,  name:'Total PSA (Prostate Cancer Marker)', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:95,  name:'Anti TPO', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:96,  name:'Vitamin-B12', category:'Hormone & Tumor Markers', price:'2500'},
+  {no:97,  name:'Vitamin-D Total', category:'Hormone & Tumor Markers', price:'3200'},
+  {no:98,  name:'Beta-HCG', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:99,  name:'Lithium', category:'Hormone & Tumor Markers', price:'1000'},
+  {no:100, name:'Magnesium', category:'Hormone & Tumor Markers', price:'800'},
+  {no:101, name:'D-Dimer', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:102, name:'ANA/ANF', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:103, name:'ANA Rapid', category:'Hormone & Tumor Markers', price:'1000'},
+  {no:104, name:'Torch Profile', category:'Hormone & Tumor Markers', price:'5500'},
+  {no:105, name:'Alfa Feto Protein (AFP) - Hepatocellular Cancer Marker', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:106, name:'CA-15.3 (Breast Cancer Marker)', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:107, name:'CA 19-9 (Pancreatic Marker)', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:108, name:'CYFRA-21.1 (Lung Cancer Marker)', category:'Hormone & Tumor Markers', price:'2000'},
+  {no:109, name:'CA-72.4 (Gastric Cancer Marker)', category:'Hormone & Tumor Markers', price:'2000'}
 ];
-const LAB_TESTS = LAB_TEST_NAMES.map((name, i) => ({
-  no: i + 1, name, price: seededPrice(i + 101, 300, 2800, 10)
-}));
+const LAB_CATEGORY_ORDER = ['Haematology','Urine Examination','Stool Examination','Microbiology/Others','Biochemistry','Serology','Hormone & Tumor Markers'];
 
 const ALL_BOOKABLE = [...SERVICES, ...LAB_TESTS];
 
-/* ---------- TEAM (random placeholder names — replace, add photoUrl later) ----------
-   Counts as requested: Lab x2, Pharmacist x2, HA x2, Dental x2, Eye x1,
-   Therapist x1, Cleaner x1. To add a real photo later: put the image file
-   next to index.html and change that person's photoUrl:null to e.g.
-   photoUrl:'images/staff1.jpg'.                                          */
+/* ---------- TEAM ---------- */
 const CREW = [
   {name:'Sunita Lama', role:'Laboratory', photoUrl:null},
   {name:'Kiran Thapa', role:'Laboratory', photoUrl:null},
@@ -617,10 +714,7 @@ const CREW = [
   {name:'Hari Bahadur', role:'Cleaner', photoUrl:null}
 ];
 
-/* ---------- TRANSLATIONS (EN / NP) ----------
-   Covers the main site chrome. Service names, lab test names, and staff
-   names are left in English/as-entered since those are proper nouns and
-   standard medical terminology. Extend this dictionary any time.        */
+/* ---------- TRANSLATIONS ---------- */
 const TRANSLATIONS = {
   en: {
     nav_home:'Home', nav_about:'About', nav_services:'Services', nav_members:'Members', nav_book:'Book Appointment', nav_admin:'Admin',
@@ -645,7 +739,7 @@ const TRANSLATIONS = {
     services_eyebrow:'Our Services', services_title:'Available Services',
     services_note:'Prices below are random placeholders — replace them with your real prices in the code whenever you\'re ready.',
     labs_eyebrow:'Laboratory Tests', labs_title:'Search Our Lab Tests',
-    labs_note:'68 lab tests, searchable by name. Prices are random placeholders — replace with real prices later.',
+    labs_note:'109 lab tests from our official rate list, searchable by name.',
     labs_search_placeholder:'Search a test, e.g. CBC, TSH, Dengue...', labs_search_btn:'Search',
     members_eyebrow:'Our Team', members_title:'Meet the team',
     members_note:'Names below are random placeholders and photos are left blank — see the code comment near CREW to replace both with the real team.',
@@ -662,7 +756,6 @@ const TRANSLATIONS = {
     confirm_p:"We'll email you once the clinic confirms or declines your appointment.", confirm_home_btn:'Back to Home',
     admin_title:'Admin Panel', admin_sub:'Enter the admin password to review and manage appointments from any device.',
     admin_pass_label:'Password', admin_login_btn:'Log In',
-    admin_default_note:' <b></b> ',
     admin_control_eyebrow:'Clinic Control', admin_dashboard_h:'Appointment Dashboard', admin_logout_btn:'Log out'
   },
   np: {
@@ -688,7 +781,7 @@ const TRANSLATIONS = {
     services_eyebrow:'हाम्रा सेवाहरू', services_title:'उपलब्ध सेवाहरू',
     services_note:'तलका मूल्यहरू अस्थायी नमूना मात्र हुन् — तयार हुँदा कोडमा वास्तविक मूल्यले प्रतिस्थापन गर्नुहोस्।',
     labs_eyebrow:'प्रयोगशाला परीक्षणहरू', labs_title:'हाम्रा ल्याब टेस्टहरू खोज्नुहोस्',
-    labs_note:'नामद्वारा खोज्न मिल्ने ६८ ल्याब टेस्टहरू। मूल्यहरू अस्थायी नमूना हुन् — पछि वास्तविक मूल्यले प्रतिस्थापन गर्नुहोस्।',
+    labs_note:'हाम्रो आधिकारिक मूल्य सूचीका १०९ ल्याब टेस्टहरू, नामद्वारा खोज्न मिल्ने।',
     labs_search_placeholder:'टेस्ट खोज्नुहोस्, जस्तै CBC, TSH, डेंगु...', labs_search_btn:'खोज्नुहोस्',
     members_eyebrow:'हाम्रो टिम', members_title:'हाम्रो टिमलाई भेट्नुहोस्',
     members_note:'तलका नामहरू अस्थायी नमूना हुन् र फोटोहरू खाली छाडिएका छन् — वास्तविक टिमले प्रतिस्थापन गर्न कोडमा CREW हेर्नुहोस्।',
@@ -705,7 +798,6 @@ const TRANSLATIONS = {
     confirm_p:'क्लिनिकले तपाईंको अपोइन्टमेन्ट पुष्टि वा अस्वीकार गरेपछि हामी इमेल गर्नेछौं।', confirm_home_btn:'गृहपृष्ठमा फर्कनुहोस्',
     admin_title:'एडमिन प्यानल', admin_sub:'जुनसुकै उपकरणबाट अपोइन्टमेन्टहरू हेर्न र व्यवस्थापन गर्न पासवर्ड प्रविष्ट गर्नुहोस्।',
     admin_pass_label:'पासवर्ड', admin_login_btn:'लग इन गर्नुहोस्',
-    admin_default_note:' <b></b> ',
     admin_control_eyebrow:'क्लिनिक नियन्त्रण', admin_dashboard_h:'अपोइन्टमेन्ट ड्यासबोर्ड', admin_logout_btn:'लग आउट गर्नुहोस्'
   }
 };
@@ -739,10 +831,17 @@ function toast(msg){
   t._timer = setTimeout(()=>t.classList.remove('show'), 3600);
 }
 
-/* ---------- NAVIGATION ---------- */
-function goTo(sectionId){
+/* =====================================================================
+   NAVIGATION — hash-based, so the browser Back/Forward buttons and page
+   history work correctly (each section click adds a real history entry).
+   ===================================================================== */
+const VALID_SECTIONS = ['home','about','services','members','book','admin'];
+
+function renderSection(sectionId){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById(sectionId).classList.add('active');
+  const target = document.getElementById(sectionId);
+  if(!target) return;
+  target.classList.add('active');
   document.querySelectorAll('#mainNav button').forEach(b=>{
     b.classList.toggle('active', b.dataset.nav === sectionId);
   });
@@ -754,6 +853,21 @@ function goTo(sectionId){
     stopAdminAutoRefresh();
   }
 }
+
+function goTo(sectionId){
+  if(!VALID_SECTIONS.includes(sectionId)) sectionId = 'home';
+  if(('#' + sectionId) !== location.hash){
+    location.hash = sectionId; // creates a browser history entry, enables Back/Forward
+  } else {
+    renderSection(sectionId);
+  }
+}
+
+window.addEventListener('hashchange', ()=>{
+  const id = location.hash.replace('#','') || 'home';
+  renderSection(VALID_SECTIONS.includes(id) ? id : 'home');
+});
+
 document.querySelectorAll('[data-nav]').forEach(el=>{
   el.addEventListener('click', e=>{
     e.preventDefault();
@@ -783,18 +897,12 @@ SERVICES.forEach(s=>{
 });
 renderServiceOptions();
 
-/* ---------- RENDER + SEARCH LAB TESTS ---------- */
+/* ---------- RENDER + SEARCH LAB TESTS (grouped by category) ---------- */
 const labGrid = document.getElementById('labGrid');
 const labCountNote = document.getElementById('labCountNote');
-function renderLabTests(filterText){
-  const q = (filterText || '').trim().toLowerCase();
-  const filtered = q ? LAB_TESTS.filter(t => t.name.toLowerCase().includes(q)) : LAB_TESTS;
-  labCountNote.textContent = q ? `${filtered.length} of ${LAB_TESTS.length} tests match "${filterText}"` : `Showing all ${LAB_TESTS.length} tests`;
-  if(filtered.length === 0){
-    labGrid.innerHTML = '<div class="lab-empty">No matching test found.</div>';
-    return;
-  }
-  labGrid.innerHTML = filtered.map(t => `
+
+function labCardHtml(t){
+  return `
     <div class="lab-card">
       <div>
         <div class="lab-no mono">#${t.no}</div>
@@ -804,7 +912,29 @@ function renderLabTests(filterText){
         <span class="lab-price mono">Rs ${t.price}</span>
         <button type="button" class="bookLabBtn" data-test="${t.name}">Book</button>
       </div>
-    </div>`).join('');
+    </div>`;
+}
+
+function renderLabTests(filterText){
+  const q = (filterText || '').trim().toLowerCase();
+
+  if(!q){
+    labCountNote.textContent = `Showing all ${LAB_TESTS.length} tests`;
+    let html = '';
+    LAB_CATEGORY_ORDER.forEach(cat=>{
+      const items = LAB_TESTS.filter(t=>t.category===cat);
+      if(items.length===0) return;
+      html += `<h4 class="lab-cat-heading">${cat}</h4><div class="lab-grid">${items.map(labCardHtml).join('')}</div>`;
+    });
+    labGrid.innerHTML = html;
+  } else {
+    const filtered = LAB_TESTS.filter(t => t.name.toLowerCase().includes(q));
+    labCountNote.textContent = `${filtered.length} of ${LAB_TESTS.length} tests match "${filterText}"`;
+    labGrid.innerHTML = filtered.length
+      ? `<div class="lab-grid">${filtered.map(labCardHtml).join('')}</div>`
+      : '<div class="lab-empty">No matching test found.</div>';
+  }
+
   labGrid.querySelectorAll('.bookLabBtn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const target = LAB_TESTS.find(t=>t.name===btn.dataset.test);
@@ -817,7 +947,7 @@ renderLabTests('');
 document.getElementById('labSearch').addEventListener('input', e => renderLabTests(e.target.value));
 document.getElementById('labSearchBtn').addEventListener('click', () => renderLabTests(document.getElementById('labSearch').value));
 
-/* delegate general-service "Book" buttons (added after initial render above) */
+/* delegate general-service "Book" buttons */
 document.addEventListener('click', (e)=>{
   const btn = e.target.closest('.bookServiceBtn');
   if(!btn) return;
@@ -1123,7 +1253,7 @@ function openImgModal(src){
 document.getElementById('imgModalClose').addEventListener('click', ()=>imgModal.classList.remove('show'));
 imgModal.addEventListener('click', e=>{ if(e.target===imgModal) imgModal.classList.remove('show'); });
 
-/* ---------- AUTO-REFRESH (every 1 second while admin dashboard is open) ---------- */
+/* ---------- AUTO-REFRESH ---------- */
 let adminRefreshTimer = null;
 function startAdminAutoRefresh(){
   stopAdminAutoRefresh();
@@ -1139,6 +1269,7 @@ function stopAdminAutoRefresh(){
 
 /* ---------- INIT ---------- */
 applyLanguage(currentLang);
+renderSection(location.hash.replace('#','') || 'home');
 </script>
 </body>
 </html>
